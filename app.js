@@ -7,14 +7,15 @@ const app = express();
 
 
 const mongoose = require('mongoose');
-const dev_db_url = 'mongodb://localhost/tc-mongo-homework';
-const mongoDB = process.env.MONGODB_URI || dev_db_url;
+const dev_db_url = 'mongodb://localhost/tc-mongoose';
+// const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
-mongoose.connect(mongoDB);
+mongoose.connect(dev_db_url, { useNewUrlParser: true,  useUnifiedTopology: true });
 mongoose.Promise = global.Promise;
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('connect', () => console.log('database connected'));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
